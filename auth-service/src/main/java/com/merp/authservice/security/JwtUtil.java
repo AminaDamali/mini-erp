@@ -1,17 +1,18 @@
 package com.merp.authservice.security;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
-import org.springframework.security.oauth2.jwt.JwtException;
-import org.springframework.stereotype.Component;
-
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.springframework.security.oauth2.jwt.JwtException;
+import org.springframework.stereotype.Component;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 
 @Component
 public class JwtUtil {
@@ -23,12 +24,15 @@ public class JwtUtil {
     }
 
     // ✅ Generate token with email and userId
-
-
     public String generateToken(String email, long userId) {
+        return generateToken(email, userId, List.of("ADMIN"));
+    }
+
+    // ✅ Generate token with email, userId, and roles
+    public String generateToken(String email, long userId, List<String> roles) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("userId", userId);
-        claims.put("roles", List.of("ADMIN")); // add roles here
+        claims.put("roles", roles);
 
         return Jwts.builder()
                 .setClaims(claims)
@@ -57,6 +61,17 @@ public class JwtUtil {
                 .parseClaimsJws(token)
                 .getBody();
         return claims.get("userId", Long.class);
+    }
+
+    // ✅ Extract roles from token
+    @SuppressWarnings("unchecked")
+    public List<String> extractRoles(String token) {
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(getSigningKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+        return claims.get("roles", List.class);
     }
 
     // ✅ Validate token

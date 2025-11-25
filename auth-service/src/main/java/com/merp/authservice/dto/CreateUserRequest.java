@@ -10,5 +10,12 @@ public class CreateUserRequest {
 
     private Long id;
     private String role;
+    
+    // Employee details (optional, for creating both user and employee)
+    private String firstName;
+    private String lastName;
+    private String department;
+    private String jobTitle;
+    private Double salary;
 
 }

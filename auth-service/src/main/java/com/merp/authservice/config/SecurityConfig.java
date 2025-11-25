@@ -8,10 +8,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-
-import lombok.RequiredArgsConstructor;
-import com.merp.authservice.security.JwtFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import com.merp.authservice.security.JwtFilter;
 
 
 @Configuration
@@ -37,6 +36,7 @@ public class SecurityConfig {
                 .securityMatcher("/api/**")
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/internal/users").hasAnyRole("ADMIN", "HR")  // ✅ Only ADMIN and HR can create users
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

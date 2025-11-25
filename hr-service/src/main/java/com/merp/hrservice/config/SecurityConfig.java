@@ -1,19 +1,18 @@
 package com.merp.hrservice.config;
 
+import java.nio.charset.StandardCharsets;
+
+import javax.crypto.spec.SecretKeySpec;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
-
-import javax.crypto.spec.SecretKeySpec;
-import java.nio.charset.StandardCharsets;
 
 @Configuration
 @EnableMethodSecurity
@@ -26,6 +25,7 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/employees/internal").permitAll()  // ✅ Allow internal service-to-service calls
                         .requestMatchers("/api/employees/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
