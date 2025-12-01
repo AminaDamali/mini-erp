@@ -26,7 +26,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/employees/internal").permitAll()  // ✅ Allow internal service-to-service calls
-                        .requestMatchers("/api/employees/**").hasRole("ADMIN")
+                        .requestMatchers("/api/employees/**").hasAnyRole("ADMIN","HR")  // ✅ Only ADMIN and HR can access employee endpoints
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2

@@ -1,6 +1,6 @@
 package com.merp.hrservice.service;
 
-
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
@@ -9,6 +9,8 @@ import com.merp.hrservice.dto.CreateEmployeeInternalRequest;
 import com.merp.hrservice.dto.CreateEmployeeRequest;
 import com.merp.hrservice.dto.CreateUserRequest;
 import com.merp.hrservice.dto.EmployeeResponse;
+import com.merp.hrservice.dto.EmployeeUpdateRequest;
+import com.merp.hrservice.dto.EmployeeUpdateResponse;
 import com.merp.hrservice.dto.UserResponse;
 import com.merp.hrservice.entity.Employee;
 import com.merp.hrservice.repository.EmployeeRepository;
@@ -74,5 +76,61 @@ public class EmployeeService {
             saved.getDepartment(),
             saved.getJobTitle()
         );
+    }
+
+    public EmployeeUpdateResponse updateEmployee(long id, EmployeeUpdateRequest request)
+    {
+        System.out.println("🟡 HR Service: Updating employee with ID: " + id);
+        
+        Employee emp = employeeRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Employee not found with ID: " + id));
+
+        // Update only the fields that are provided (not null)
+        if (request.getFirstName() != null) {
+            emp.setFirstName(request.getFirstName());
+        }
+        if (request.getLastName() != null) {
+            emp.setLastName(request.getLastName());
+        }
+        if (request.getDepartment() != null) {
+            emp.setDepartment(request.getDepartment());
+        }
+        if (request.getJobTitle() != null) {
+            emp.setJobTitle(request.getJobTitle());
+        }
+        if (request.getSalary() != null) {
+            emp.setSalary(request.getSalary());
+        }
+
+        Employee saved = employeeRepository.save(emp);
+        System.out.println("✅ HR Service: Employee updated successfully");
+
+        return new EmployeeUpdateResponse(
+            saved.getId(),
+            saved.getUserId(),
+            saved.getFirstName(),
+            saved.getLastName(),
+            saved.getEmail(),
+            saved.getDepartment(),
+            saved.getJobTitle(),
+            saved.getSalary()
+        );
+    }
+    public List<EmployeeResponse> getAllEmployees() {
+        System.out.println("🔵 HR Service: Fetching all employees");
+        
+        List<Employee> employees = employeeRepository.findAll();
+        
+        return employees.stream()
+            .map(emp -> new EmployeeResponse(
+                emp.getId(),
+                emp.getUserId(),
+                emp.getFirstName(),
+                emp.getLastName(),
+                emp.getEmail(),
+                emp.getDepartment(),
+                emp.getJobTitle()
+            ))
+            .toList();
     }
 }

@@ -1,2 +1,21 @@
-package com.merp.hrservice.dto;public class EmployeeUpdateResponse {
+package com.merp.hrservice.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class EmployeeUpdateResponse {
+    private Long id;
+    private Long userId;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String department;
+    private String jobTitle;
+    private Double salary;
 }
+
+
