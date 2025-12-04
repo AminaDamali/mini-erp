@@ -133,4 +133,14 @@ public class EmployeeService {
             ))
             .toList();
     }
+    public void deleteEmployee(long id) {
+        System.out.println("🟠 HR Service: Deleting employee with ID: " + id);
+
+        if (!employeeRepository.existsById(id)) {
+            throw new RuntimeException("Employee not found with ID: " + id);
+        }
+
+        employeeRepository.deleteById(id);
+        System.out.println("✅ HR Service: Employee deleted successfully");
+    }
 }
