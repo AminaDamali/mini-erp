@@ -15,4 +15,8 @@ public class EmployeeResponse {
     private String email;
     private String department;
     private String jobTitle;
+    private String phone;
+    private String address;
+    private String city;
+    private String contractType;
 }

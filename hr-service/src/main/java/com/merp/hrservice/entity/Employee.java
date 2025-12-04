@@ -32,6 +32,12 @@ public class Employee {
 
     private LocalDate hireDate;
     private Double salary;
+    private String address;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "contract_type", columnDefinition = "VARCHAR(20)")
+    private ContractType contractType;
+    private String city;
 
     @Enumerated(EnumType.STRING)
     private EmployeeStatus status = EmployeeStatus.ACTIVE;

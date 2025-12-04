@@ -9,6 +9,10 @@ public class EmployeeUpdateRequest {
     private String department;
     private String jobTitle;
     private Double salary;
+    private String phone;
+    private String address;
+    private String city;
+    private String contractType;
 }
 
 

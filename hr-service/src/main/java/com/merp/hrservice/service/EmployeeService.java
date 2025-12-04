@@ -2,6 +2,7 @@ package com.merp.hrservice.service;
 
 import java.util.List;
 
+import com.merp.hrservice.entity.ContractType;
 import org.springframework.stereotype.Service;
 
 import com.merp.hrservice.client.AuthClient;
@@ -74,7 +75,11 @@ public class EmployeeService {
             saved.getLastName(),
             saved.getEmail(),
             saved.getDepartment(),
-            saved.getJobTitle()
+            saved.getJobTitle(),
+            saved.getPhone(),
+            saved.getAddress(),
+            saved.getCity(),
+            saved.getContractType() != null ? saved.getContractType().name() : null
         );
     }
 
@@ -101,7 +106,17 @@ public class EmployeeService {
         if (request.getSalary() != null) {
             emp.setSalary(request.getSalary());
         }
+        if (request.getCity() != null) {
+            emp.setCity(request.getCity());
+        }
+        if (request.getContractType() != null) {
+            System.out.println("🔍 Setting contractType: '" + request.getContractType() + "'");
+            ContractType contractType = ContractType.valueOf(request.getContractType());
+            System.out.println("🔍 Parsed enum: " + contractType);
+            emp.setContractType(contractType);
+        }
 
+        System.out.println("🔍 Before save - contractType value: " + emp.getContractType());
         Employee saved = employeeRepository.save(emp);
         System.out.println("✅ HR Service: Employee updated successfully");
 
@@ -113,7 +128,11 @@ public class EmployeeService {
             saved.getEmail(),
             saved.getDepartment(),
             saved.getJobTitle(),
-            saved.getSalary()
+            saved.getSalary(),
+            saved.getPhone(),
+            saved.getAddress(),
+            saved.getCity(),
+            saved.getContractType() != null ? saved.getContractType().name() : null
         );
     }
     public List<EmployeeResponse> getAllEmployees() {
@@ -129,7 +148,11 @@ public class EmployeeService {
                 emp.getLastName(),
                 emp.getEmail(),
                 emp.getDepartment(),
-                emp.getJobTitle()
+                emp.getJobTitle(),
+                emp.getPhone(),
+                emp.getAddress(),
+                emp.getCity(),
+                emp.getContractType() != null ? emp.getContractType().name() : null
             ))
             .toList();
     }
