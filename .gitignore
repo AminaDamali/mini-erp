@@ -31,3 +31,8 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Application Properties (contains sensitive data) ###
+**/application.properties
+**/application.yml
+**/application.yaml
