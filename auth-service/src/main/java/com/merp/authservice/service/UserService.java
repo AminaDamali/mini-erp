@@ -67,3 +67,17 @@ public class UserService {
         return new UserResponse(user.getId(), user.getEmail(), role.getName());
     }
 }
+
+ /*
+     Lombok generates this constructor automatically thanks to the required args:
+    required args generates the constructor with the final attributes for dependency injection
+     public UserService(AuthRepository authRepository,
+                        PasswordEncoder passwordEncoder,
+                        RoleRepository roleRepository,
+                        HrClient hrClient) {
+         this.authRepository = authRepository;
+         this.passwordEncoder = passwordEncoder;
+         this.roleRepository = roleRepository;
+         this.hrClient = hrClient;
+     }
+    */

@@ -8,7 +8,7 @@ import java.util.Set;
 
 @Data
 @Entity
-@NoArgsConstructor
+@NoArgsConstructor // required by jpa
 public class User {
     private String email;
     private String password;
